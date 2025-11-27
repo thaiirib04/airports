@@ -1,6 +1,7 @@
 
 package br.dev.thaissa.airports.controllers;
 
+import br.dev.thaissa.airports.DTO.AirportMinDTO;
 import br.dev.thaissa.airports.entities.Airport;
 import br.dev.thaissa.airports.service.AirportService;
 import java.util.List;
@@ -40,5 +41,20 @@ public class AirportController {
             //ok devolve 200
             return ResponseEntity.ok(result);
         }
+    }
+    
+    @GetMapping("/country/{countryName}")
+    public ResponseEntity<List<AirportMinDTO>> findByCountryIgnoreCase(@PathVariable String countryName) {
+        List<AirportMinDTO> result = airportService.findByCountry(countryName);
+        if(result.isEmpty()) {
+             //ops... lista vazia...
+            // notFound devolve 404
+            return ResponseEntity.notFound().build();
+        } else {
+            //eba! tem dados!
+            //ok devolve 200
+            return ResponseEntity.ok(result);
+        }
+        
     }
 }
